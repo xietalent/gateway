@@ -1,0 +1,17 @@
+.idea
+.settings
+target
+.DS_Store
+.project
+*.iml
+*.pid
+.classpath
+*.zip
+refs
+/logs/
+/branches/
+/HEAD
+/info/
+/objects/
+/config
+/hooks/

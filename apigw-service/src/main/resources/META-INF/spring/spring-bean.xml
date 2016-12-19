@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans default-autowire="byName"
+       xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+">
+
+    <context:property-placeholder location="classpath:config.properties"/>
+
+
+
+    <context:component-scan base-package="com.hrocloud.apigw.service,com.hrocloud.apigw.meta"/>
+
+    <bean id="apiConfig" class="com.hrocloud.apigw.utils.ApiConfig" scope="singleton">
+        <property name="apiRsaPrivate" value="${api.rsa.private}"/>
+        <property name="apiRsaPublic" value="${api.rsa.public}" />
+        <property name="apiTokenAes" value="${api.token.aes}" />
+        <property name="authorizedIPs" value="#{'127.0.0.1|10.0.|10.128.'.split('\|')}" />
+        <property name="csrfTokenSecret" value="${csrf.token.secret}" />
+        <property name="serviceVersion" value="LATEST"/>
+        <property name="staticSignPwd" value="${static.sign.pwd}"/>
+    </bean>
+
+    <bean id="dubboUtil" class="com.hrocloud.apigw.utils.DubboUtil">
+        <constructor-arg type="java.lang.String" index="0">
+            <value>xyz</value>
+        </constructor-arg>
+        <constructor-arg type="java.lang.String" index="1">
+            <value>${dubbo.registry.address}</value>
+        </constructor-arg>
+    </bean>
+    
+    <!--<dubbo:monitor protocol="registry" ></dubbo:monitor>-->
+
+    <dubbo:application name="${dubbo.application.name}"/>
+
+    <dubbo:registry protocol="zookeeper" address="${dubbo.registry.address}"/>
+
+    <dubbo:reference id="securityService" interface="com.hrocloud.apigw.client.service.SecurityService" version="LATEST" check="false"/>
+
+    <bean id="accessLogger" class="com.hrocloud.apigw.utils.AccessLogger"/>
+
+</beans>

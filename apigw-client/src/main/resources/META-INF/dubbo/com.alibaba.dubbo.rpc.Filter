@@ -1,0 +1,3 @@
+notificationProvider=com.hrocloud.apigw.client.dubboext.NotificationProviderFilter
+apiInvokeLogger=com.hrocloud.apigw.client.dubboext.ApiInvokeLoggerFilter
+notificationConsumer=com.hrocloud.apigw.client.dubboext.NotificationConsumerFilter

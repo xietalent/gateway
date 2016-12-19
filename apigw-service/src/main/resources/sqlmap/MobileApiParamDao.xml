@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hrocloud.apigw.meta.dao.ApiParamDao">
+
+
+    <!-- object to table mapper -->
+    <resultMap id="MobileApiParam" type="com.hrocloud.apigw.meta.model.ApiParam">
+        <result property="apiId" column="api_id"/>
+        <result property="paramName" column="param_name"/>
+        <result property="paramType" column="param_type"/>
+		<result property="paramOrder" column="param_order"/>
+		<result property="isAuto" column="is_auto"/>
+		<result property="isRsaEncrypted" column="is_RsaEncrypted"/>
+		<result property="isAesEncrypted" column="is_AesEncrypted"/>
+		<result property="isRequired" column="is_Required"/>
+		<result property="defaultValue" column="default_value"/>
+		<result property="paramTypeDetail" column="param_Type_Detail"/>
+    </resultMap>
+
+    <select id="getByMobileApiId" parameterType="java.lang.String"
+            resultMap="MobileApiParam">
+		SELECT
+			api_param.api_id,
+			api_param.param_order,
+			api_param.param_name,
+			api_param.param_type,
+			api_param.is_auto,
+			api_param.is_RsaEncrypted,
+			api_param.is_AesEncrypted,
+			api_param.is_Required,
+			api_param.default_value,
+			api_param.param_Type_Detail
+		FROM 
+			mobileapi_api_param api_param
+		WHERE 
+			api_param.api_id = #{apiId}
+		ORDER BY 
+			param_order
+		ASC
+    </select>
+
+</mapper>
