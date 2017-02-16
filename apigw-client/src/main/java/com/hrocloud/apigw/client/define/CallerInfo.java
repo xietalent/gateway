@@ -4,10 +4,10 @@ import java.io.Serializable;
 
 public class CallerInfo implements Serializable {
 
-    public long   companyId;
+    public int   companyId;
     public int    appid;
     public long   expire;
     public long   deviceId;
-    public long   uid;
-    public long   domainId;
+    public int   uid;
+    public int   domainId;
 }

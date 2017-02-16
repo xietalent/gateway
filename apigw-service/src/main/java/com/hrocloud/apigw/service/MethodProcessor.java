@@ -41,7 +41,7 @@ public class MethodProcessor {
 
     private static int SECURITY_WITH_USER_TK = 0;
 
-    static  {
+    static {
         SecurityType[] securityTypes = SecurityType.values();
         if (securityTypes != null) {
             for (SecurityType securityType : securityTypes) {
@@ -52,7 +52,7 @@ public class MethodProcessor {
         }
     }
 
-    MethodProcessor(ApiMetaDataManager apiMetaDataManager, ApiParamManager apiParamManager, ApiConfig apiConfig, AccessLogger access, SecurityBiz securityBiz, String dubboVersion){
+    MethodProcessor(ApiMetaDataManager apiMetaDataManager, ApiParamManager apiParamManager, ApiConfig apiConfig, AccessLogger access, SecurityBiz securityBiz, String dubboVersion) {
         this.apiMetaDataManager = apiMetaDataManager;
         this.apiParamManager = apiParamManager;
         this.apiConfig = apiConfig;
@@ -61,7 +61,7 @@ public class MethodProcessor {
         this.dubboVersion = dubboVersion;
     }
 
-    AbstractReturnCode process(final ApiContext context, final HttpServletRequest request){
+    AbstractReturnCode process(final ApiContext context, final HttpServletRequest request) {
 
         String nameString = request.getParameter(CommonParameter.method);
 
@@ -78,39 +78,40 @@ public class MethodProcessor {
                 ApiMetaData apiMetaData = apiMetaDataManager.getMobileApiByGroupNameVersion(apiGroupName[0], apiGroupName[1], this.dubboVersion);
 
                 if (apiMetaData != null) {
-                    if(ApiOpenState.INTERNAL.equals(apiMetaData.getStatus()) && !isInternalIP(context)) {
+                    if (ApiOpenState.INTERNAL.equals(apiMetaData.getStatus()) && !isInternalIP(context)) {
                         return ApiReturnCode.IP_DENIED;
                     }
                     ApiMethodCall call = new ApiMethodCall(apiMetaData);
 
-                    List<ApiParam> apiParams= apiParamManager.listInputParamByApiId(apiMetaData.getApiId(),apiMetaData.getApiGroup());
+                    List<ApiParam> apiParams = apiParamManager.listInputParamByApiId(apiMetaData.getApiId(), apiMetaData.getApiGroup());
 
                     call.returnTypeName = apiParams.get(0).getParamType();
 
-                    int apiInputParamsSize = apiParams.size()-1;
+                    int apiInputParamsSize = apiParams.size() - 1;
                     String[] parameters = new String[apiInputParamsSize];
                     String[] parameterNames = new String[apiInputParamsSize];
                     String[] parameterTypes = new String[apiInputParamsSize];
                     String[] parameterTypeJsons = new String[apiInputParamsSize];
                     context.requiredSecurity = apiMetaData.getSecurityLevel() | context.requiredSecurity;
 
-                    for( int i = 0; i < parameters.length; i++) {
-                        ApiParam ap = apiParams.get(i+1);
+                    for (int i = 0; i < parameters.length; i++) {
+                        ApiParam ap = apiParams.get(i + 1);
                         parameterTypes[i] = ap.getParamType();
                         parameterNames[i] = ap.getParamName();
                         parameterTypeJsons[i] = ap.getParamTypeDetail();
 
-                        if(ap.isAuto()) {
+                        if (ap.isAuto()) {
                             if (CommonParameter.userId.equals(ap.getParamName())) {
                                 parameters[i] = context.caller == null ? "0" : String.valueOf(context.caller.uid);
                             } else if (CommonParameter.companyId.equals(ap.getParamName())) {
-                                parameters[i] = context.caller == null ? "0" : String.valueOf(context.caller.companyId);}
-                            else if (CommonParameter.deviceId.equals(ap.getParamName())) {
+                                parameters[i] = context.caller == null ? "0" : String.valueOf(context.caller.companyId);
+                            } else if (CommonParameter.deviceId.equals(ap.getParamName())) {
                                 parameters[i] = context.caller == null ? "0" : String.valueOf(context.caller.deviceId);
                             } else if (CommonParameter.applicationId.equals(ap.getParamName())) {
                                 parameters[i] = context.caller == null ? String.valueOf(context.appid) :
                                         ((SECURITY_WITH_USER_TK & apiMetaData.getSecurityLevel()) == apiMetaData.getSecurityLevel()) ?
-                                                String.valueOf(context.caller.appid) : String.valueOf(context.appid);                          } else if (CommonParameter.token.equals(ap.getParamName())) {
+                                                String.valueOf(context.caller.appid) : String.valueOf(context.appid);
+                            } else if (CommonParameter.token.equals(ap.getParamName())) {
                                 parameters[i] = context.caller == null ? null : context.token;
                             } else if (CommonParameter.clientIp.equals(ap.getParamName())) {
                                 parameters[i] = context.clientIP == null ? null : context.clientIP;
@@ -132,12 +133,12 @@ public class MethodProcessor {
                                 parameters[i] = request.getParameter(name);
                             }
 
-                            if(parameters[i]==null) {
+                            if (parameters[i] == null) {
                                 parameters[i] = ap.getDefaultValue();
                             }
 
                             if (ap.isRequired() && parameters[i] == null) {
-                                access.logRequest("with  error", "parameter validation failed, required parameter:"+ap.getParamName()+" is null");
+                                access.logRequest("with  error", "parameter validation failed, required parameter:" + ap.getParamName() + " is null");
                                 return ApiReturnCode.PARAMETER_ERROR;
                             }
 
@@ -166,7 +167,7 @@ public class MethodProcessor {
                     call.parameters = parameters;
                     call.parameterNames = parameterNames;
                     call.parameterTypeJsons = parameterTypeJsons;
-                    if(parameterTypes.length != parameters.length) {
+                    if (parameterTypes.length != parameters.length) {
                         logger.error("The size of parameters should be {}, not {}", parameterTypes.length, parameters.length);
                         return ApiReturnCode.PARAMETER_ERROR;
                     }
@@ -208,7 +209,6 @@ public class MethodProcessor {
         }
         return false;
     }
-
 
 
     private boolean checkSignature(ApiContext context, int securityLevel, HttpServletRequest request) {

@@ -15,8 +15,8 @@ public class SecurityBiz {
 	@Resource
 	private SecurityService securityService;
 
-	public int checkUserStatus(String clientIp, long appId,
-			long deviceId, long userId) {
+	public int checkUserStatus(String clientIp, int appId,
+			long deviceId, int userId) {
 
 		int i = securityService.checkUserStatus(clientIp,
 				deviceId, appId, userId);

@@ -69,10 +69,10 @@ public class SignUtil {
     }
 
     public static void main(String[] args) throws Exception{
-        System.out.println(md5SignForNoneSecurityType("_mt=usermgmt.login&companyCode=HROCloud&applicationId=0&userna7a9c6b9a60a85387939451f7bd27dc4ame=ROOT&password=c33367701511b4f6020ec61ded352059","www.hrocloud.com"));
-        System.out.println(md5SignForNoneSecurityType("_mt=usermgmt.logout","9437df3180f0165f94d95716ad824113"));
+//        System.out.println(md5SignForNoneSecurityType("_mt=usermgmt.login&companyCode=HROCloud&applicationId=0&userna7a9c6b9a60a85387939451f7bd27dc4ame=ROOT&password=c33367701511b4f6020ec61ded352059","www.hrocloud.com"));
+        System.out.println(md5SignForNoneSecurityType("_mt=verifycode.verifyCaptcha&clientId=1000&clientPass=6cc1c430aed64d3bb8516011195a5b56&clientIp=127.0.0.1&key=21d6a04c8dc04490997f5b07b9871637&input=puVz","www.hrocloud.com"));
 
-        System.out.println(md5Sign("_mt=user.getusername","5u8szAqRVVmNQbHSEuqEoQKu1Q++xL5RGrrKIKNh1m/QkLI1wX13GR5acJ07gvPpboLE+n8dDe5dVN7bcSWKBg=="));
+        System.out.println(md5SignForNoneSecurityType("_mt=usrmgmt.gencaptchaimg&number=100000","www.hrocloud.com"));
 
     }
 }

@@ -41,13 +41,13 @@ public class AESTokenHelper {
             }
 
             if (sourceData[0] != null && !sourceData[0].isEmpty()) {
-                caller.domainId = Long.parseLong(sourceData[0].trim());
+                caller.domainId = Integer.parseInt(sourceData[0].trim());
             }
             if (sourceData[1] != null && !sourceData[1].isEmpty()) {
-                caller.companyId = Long.parseLong(sourceData[1].trim());
+                caller.companyId = Integer.parseInt(sourceData[1].trim());
             }
             if (sourceData[2] != null && !sourceData[2].isEmpty()) {
-                caller.uid = Long.parseLong(sourceData[2].trim());
+                caller.uid = Integer.parseInt(sourceData[2].trim());
             }
             if (sourceData[4] != null && !sourceData[4].isEmpty()) {
                 caller.appid = Integer.parseInt(sourceData[4].trim());

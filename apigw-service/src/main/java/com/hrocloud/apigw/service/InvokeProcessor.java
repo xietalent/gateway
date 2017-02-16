@@ -78,7 +78,7 @@ class InvokeProcessor {
                         tk_cookie.setMaxAge(-1);
                         tk_cookie.setHttpOnly(true);
                         tk_cookie.setPath("/");
-			//tk_cookie.setDomain(".hrocloud.com");
+			            tk_cookie.setDomain(".hrocloud.com");
                         response.addCookie(tk_cookie);
                     } else if (ConstField.ERROR_CODE.equals(entry.getKey())) {
                         AbstractReturnCode rcCode = ReturnCodeContainer.getCode(Integer.parseInt(entry.getValue()));
